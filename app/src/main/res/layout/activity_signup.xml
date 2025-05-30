@@ -98,6 +98,7 @@
             android:layout_width="330dp"
             android:layout_height="55dp"
             android:layout_marginTop="24dp"
+            android:paddingBottom="6dp"
             android:text="Sign Up"
             android:fontFamily="@font/inter_medium"
             android:textSize="24sp"
