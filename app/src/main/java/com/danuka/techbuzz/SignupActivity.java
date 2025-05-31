@@ -182,11 +182,11 @@ public class SignupActivity extends AppCompatActivity {
                         if (isPasswordVisible) {
                             // Hide password
                             editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_icon, 0);
+                            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_off_icon, 0);
                         } else {
                             // Show password
                             editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_off_icon, 0);
+                            editText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_icon, 0);
                         }
                         isPasswordVisible = !isPasswordVisible;
                         editText.setSelection(editText.getText().length());
