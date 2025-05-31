@@ -59,6 +59,7 @@
         android:paddingLeft="16dp"
         android:paddingTop="8dp"
         android:drawableLeft="@drawable/lock_icon"
+        android:drawableRight="@drawable/visibility_icon"
         android:drawablePadding="16dp"
         android:background="@drawable/edittext_border"
         app:layout_constraintEnd_toEndOf="parent"

@@ -2,12 +2,14 @@ package com.danuka.techbuzz;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -102,6 +104,34 @@ public class LoginActivity extends AppCompatActivity {
         styledTerms.setSpan(new ForegroundColorSpan(Color.BLACK), privacyStart, privacyEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         termsText.setText(styledTerms);
+
+        //toggle password
+        final boolean[] isPasswordVisible = {false};
+        loginPassword.setOnTouchListener((v, event) -> {
+            final int DRAWABLE_RIGHT = 2;  // 0 = left, 1 = top, 2 = right, 3 = bottom
+
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getRawX() >= (loginPassword.getRight() - loginPassword.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                    // Toggle password visibility
+                    if (isPasswordVisible[0]) {
+                        // Hide password
+                        loginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        loginPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_icon, 0);
+                    } else {
+                        // Show password
+                        loginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        loginPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_off_icon, 0);
+                    }
+
+                    // Move cursor to end
+                    loginPassword.setSelection(loginPassword.getText().length());
+
+                    isPasswordVisible[0] = !isPasswordVisible[0];
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
     public void checkUser(String username, String password) {
