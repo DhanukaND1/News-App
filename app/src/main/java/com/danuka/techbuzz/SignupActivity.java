@@ -13,13 +13,25 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.util.Patterns;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignupActivity extends AppCompatActivity {
+
+    EditText signupUsername,signupEmail,signupPassword,confirmPassword;
+    Button signupButton;
+    FirebaseDatabase database;
+    DatabaseReference reference;
+
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -27,8 +39,80 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        EditText password = findViewById(R.id.password_input);
-        EditText confirmPassword = findViewById(R.id.confirm_password_input);
+         signupUsername = findViewById(R.id.username_input);
+         signupEmail = findViewById(R.id.email_input);
+         signupPassword = findViewById(R.id.password_input);
+         confirmPassword = findViewById(R.id.confirm_password_input);
+         signupButton = findViewById(R.id.signup_button);
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                database = FirebaseDatabase.getInstance();
+                reference = database.getReference("users");
+
+                String username = signupUsername.getText().toString().trim();
+                String email = signupEmail.getText().toString().trim();
+                String password = signupPassword.getText().toString().trim();
+                String confirmPass = confirmPassword.getText().toString().trim();
+
+                // Basic field validation
+                if (username.isEmpty()) {
+                    Toast.makeText(SignupActivity.this, "Please enter a username", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                reference.child(username).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        if (task.getResult().exists()) {
+                            Toast.makeText(SignupActivity.this, "Username already taken", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Continue with other validations
+                            if (email.isEmpty()) {
+                                Toast.makeText(SignupActivity.this, "Please enter an email", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                                Toast.makeText(SignupActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            if (password.isEmpty()) {
+                                Toast.makeText(SignupActivity.this, "Please enter a password", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            if (password.length() < 6) {
+                                Toast.makeText(SignupActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+
+                            if (confirmPass.isEmpty()) {
+                                Toast.makeText(SignupActivity.this, "Please confirm your password", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            if (!password.equals(confirmPass)) {
+                                Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                            // Create user and store in DB
+                            HelperClass helperClass = new HelperClass(username, email, password);
+                            reference.child(username).setValue(helperClass);
+
+                            Toast.makeText(SignupActivity.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                        }
+                    } else {
+                        Toast.makeText(SignupActivity.this, "Error checking username", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
 
         // 1. Color "Tech" and "Buzz" in different colors
         TextView appName = findViewById(R.id.login_appname);
@@ -114,7 +198,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         };
 
-        password.setOnTouchListener(togglePasswordListener);
+        signupPassword.setOnTouchListener(togglePasswordListener);
         confirmPassword.setOnTouchListener(togglePasswordListener);
     }
 }
