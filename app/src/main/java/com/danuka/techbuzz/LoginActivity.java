@@ -116,11 +116,11 @@ public class LoginActivity extends AppCompatActivity {
                     if (isPasswordVisible[0]) {
                         // Hide password
                         loginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        loginPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_icon, 0);
+                        loginPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_off_icon, 0);
                     } else {
                         // Show password
                         loginPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                        loginPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_off_icon, 0);
+                        loginPassword.setCompoundDrawablesWithIntrinsicBounds(R.drawable.lock_icon, 0, R.drawable.visibility_icon, 0);
                     }
 
                     // Move cursor to end
