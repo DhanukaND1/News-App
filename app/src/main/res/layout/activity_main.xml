@@ -1,153 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#F4F8FB">
+    android:layout_height="match_parent">
 
-    <!-- Main Content with ScrollView to allow scrolling -->
-    <ScrollView
+    <!-- Main Content -->
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="98dp"
-        android:fillViewport="true">
+        android:background="#F4F8FB">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!-- Orange Oval at Top -->
+        <!-- Fixed Top Oval -->
         <View
             android:id="@+id/topOval"
             android:layout_width="match_parent"
             android:layout_height="212dp"
             android:background="@drawable/top_oval"
-            android:layout_alignParentTop="true"
-            android:translationY="-86dp" />
+            android:translationY="-86dp"
+            android:elevation="2dp" />
 
-        <!-- Hamburger Menu Icon -->
-        <ImageView
-            android:id="@+id/menuIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/menu_icon"
-            android:layout_marginTop="36dp"
-            android:layout_marginStart="40dp"
-            android:layout_alignParentStart="true"
-            android:background="@android:color/transparent"/>
-
-        <!-- Top News Title -->
-        <TextView
-            android:id="@+id/topNewsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Top News"
-            android:textColor="#193C6D"
-            android:fontFamily="@font/inter_bold"
-            android:textSize="32sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"/>
-
-        <!-- News Cards Container -->
-        <LinearLayout
-            android:id="@+id/newsCardsContainer"
+        <!-- Fixed Top Row: Menu Icon + Title -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/topOval"
-            android:layout_marginTop="-38dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp">
+            android:paddingTop="60dp"
+            android:paddingBottom="20dp"
+            android:elevation="4dp">
 
-            <include
-                layout="@layout/news_card"
-                android:id="@+id/newsCard1"/>
+            <!-- Hamburger Icon -->
+            <ImageView
+                android:id="@+id/menuIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/menu_icon"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="50dp"
+                android:layout_alignParentStart="true"
+                android:background="@android:color/transparent" />
 
-            <include
-                layout="@layout/news_card"
-                android:id="@+id/newsCard2"/>
+            <!-- Top News Title -->
+            <TextView
+                android:id="@+id/topNewsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top News"
+                android:textColor="#193C6D"
+                android:fontFamily="@font/inter_bold"
+                android:textSize="32sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-10dp" />
+
+        </RelativeLayout>
+
+        <!-- Scrollable Content -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="98dp"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- News Cards Container -->
+                <LinearLayout
+                    android:id="@+id/newsCardsContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="160dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp">
+
+                    <include layout="@layout/news_card" android:id="@+id/newsCard1"/>
+                    <include layout="@layout/news_card" android:id="@+id/newsCard2"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+
+        <!-- Fixed Bottom Navigation Row -->
+        <LinearLayout
+            android:id="@+id/bottomNav"
+            android:layout_width="match_parent"
+            android:layout_height="98dp"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="#FDFDFD"
+            android:elevation="8dp">
+
+            <!-- Sports -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/sport_icon"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sports" android:textColor="#193C6D" android:fontFamily="@font/inter_bold" android:textSize="14sp"/>
+            </LinearLayout>
+
+            <!-- Academic -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/acedamic_icon"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Academic" android:textColor="#193C6D" android:fontFamily="@font/inter_bold" android:textSize="14sp"/>
+            </LinearLayout>
+
+            <!-- Events -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+                <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/event_icon"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Events" android:textColor="#193C6D" android:fontFamily="@font/inter_bold" android:textSize="14sp"/>
+            </LinearLayout>
         </LinearLayout>
-
-    </RelativeLayout>
-</ScrollView>
-
-    <!-- Fixed Bottom Navigation Row (overlapping, always visible) -->
-<LinearLayout
-    android:id="@+id/bottomNav"
-    android:layout_width="match_parent"
-    android:layout_height="98dp"
-    android:layout_gravity="bottom"
-    android:orientation="horizontal"
-    android:gravity="center"
-    android:background="#FDFDFD"
-    android:elevation="8dp">
-
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="vertical"
-    android:gravity="center">
-
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/sport_icon"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sports"
-        android:textColor="#193C6D"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="14sp"/>
-
-</LinearLayout>
-
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="vertical"
-    android:gravity="center">
-
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/acedamic_icon"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Academic"
-        android:textColor="#193C6D"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="14sp"/>
-
-</LinearLayout>
-
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_weight="1"
-    android:orientation="vertical"
-    android:gravity="center">
-
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/event_icon"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Events"
-        android:textColor="#193C6D"
-        android:fontFamily="@font/inter_bold"
-        android:textSize="14sp"/>
-
-</LinearLayout>
-
-</LinearLayout>
-
     </FrameLayout>
+
+    <!-- Navigation Drawer -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/nav_header" />
+</androidx.drawerlayout.widget.DrawerLayout>
