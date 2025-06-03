@@ -74,9 +74,50 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp">
 
-                    <include layout="@layout/news_card" android:id="@+id/newsCard1"/>
-                    <include layout="@layout/news_card" android:id="@+id/newsCard2"/>
+                    <!-- Wrap each include in a unique container -->
+                    <LinearLayout
+                        android:id="@+id/newsCard1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/news_card" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/newsCard2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/news_card" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/newsCard3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/news_card" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/newsCard4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/news_card" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/newsCard5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/news_card" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/newsCard6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <include layout="@layout/news_card" />
+                    </LinearLayout>
                 </LinearLayout>
+
 
             </RelativeLayout>
         </ScrollView>
