@@ -51,9 +51,41 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="-10dp" />
 
+            <LinearLayout
+                android:id="@+id/all_news_button"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/topNewsTitle"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="50dp"
+                android:background="@drawable/all_news_btn_background"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:paddingLeft="9dp"
+                android:paddingRight="7dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="10dp"
+                android:elevation="4dp"
+                android:translationZ="2dp"
+                android:visibility="gone" >
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:text="All News"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/inter_semibold"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
         </RelativeLayout>
 
-        <!-- Scrollable Content -->
+
+
+
+    <!-- Scrollable Content -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -70,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="160dp"
+                    android:layout_marginTop="190dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp">
 
@@ -135,37 +167,78 @@
 
             <!-- Sports -->
             <LinearLayout
+                android:id="@+id/sports_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center">
-                <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/sport_icon"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sports" android:textColor="#193C6D" android:fontFamily="@font/inter_bold" android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/sport_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sports"
+                    android:textColor="#193C6D"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="14sp"/>
+
             </LinearLayout>
 
             <!-- Academic -->
             <LinearLayout
+                android:id="@+id/academic_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center">
-                <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/acedamic_icon"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Academic" android:textColor="#193C6D" android:fontFamily="@font/inter_bold" android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/acedamic_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Academic"
+                    android:textColor="#193C6D"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="14sp"/>
+
             </LinearLayout>
 
             <!-- Events -->
             <LinearLayout
+                android:id="@+id/events_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center">
-                <ImageView android:layout_width="60dp" android:layout_height="60dp" android:src="@drawable/event_icon"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Events" android:textColor="#193C6D" android:fontFamily="@font/inter_bold" android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/event_icon"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Events"
+                    android:textColor="#193C6D"
+                    android:fontFamily="@font/inter_bold"
+                    android:textSize="14sp"/>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </FrameLayout>
 
     <!-- Navigation Drawer -->

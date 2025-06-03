@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.LinearLayout;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,11 +35,42 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private ImageView menuIcon;
     private NavigationView navigationView;
+    private boolean isFilteredView = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        LinearLayout sportsButton = findViewById(R.id.sports_button);
+        LinearLayout academicButton = findViewById(R.id.academic_button);
+        LinearLayout eventsButton = findViewById(R.id.events_button);
+        LinearLayout allNewsButton = findViewById(R.id.all_news_button);
+
+        allNewsButton.setOnClickListener(v -> {
+            fetchAndDisplayNews();
+            allNewsButton.setVisibility(View.GONE);
+            isFilteredView = false;
+        });
+
+        sportsButton.setOnClickListener(v -> {
+            fetchSportsNews();
+            isFilteredView = true;
+            allNewsButton.setVisibility(View.VISIBLE);
+        });
+
+        academicButton.setOnClickListener(v -> {
+            fetchAcademicNews();
+            isFilteredView = true;
+            allNewsButton.setVisibility(View.VISIBLE);
+        });
+
+
+        eventsButton.setOnClickListener(v -> {
+            fetchEventsNews();
+            isFilteredView = true;
+            allNewsButton.setVisibility(View.VISIBLE);
+        });
 
         drawerLayout = findViewById(R.id.drawer_layout);
         menuIcon = findViewById(R.id.menuIcon);
@@ -59,6 +92,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         fetchAndDisplayNews();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isFilteredView) {
+            fetchAndDisplayNews();
+            isFilteredView = false;
+            findViewById(R.id.all_news_button).setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     // Method to parse date string to Date object
@@ -128,18 +172,28 @@ public class MainActivity extends AppCompatActivity {
     // Populate up to 6 news cards dynamically
     private void populateNewsCards(List<News> newsList) {
         int maxCards = 6;
+
+        // Hide all cards
+        for (int i = 1; i <= maxCards; i++) {
+            int cardId = getResources().getIdentifier("newsCard" + i, "id", getPackageName());
+            View card = findViewById(cardId);
+            if (card != null) {
+                card.setVisibility(View.GONE);
+            }
+        }
+
+        // Populate and show available news
         for (int i = 0; i < Math.min(newsList.size(), maxCards); i++) {
             int cardId = getResources().getIdentifier("newsCard" + (i + 1), "id", getPackageName());
             View card = findViewById(cardId);
-
             if (card != null) {
+                News item = newsList.get(i);
+
                 TextView titleText = card.findViewById(R.id.newsTitle);
                 TextView dateText = card.findViewById(R.id.newsDate);
                 ImageView imageView = card.findViewById(R.id.newsImage);
                 TextView descriptionText = card.findViewById(R.id.newsDescription);
                 TextView readMoreText = card.findViewById(R.id.newsReadMore);
-
-                News item = newsList.get(i);
 
                 titleText.setText(item.title);
                 dateText.setText(item.date);
@@ -158,8 +212,120 @@ public class MainActivity extends AppCompatActivity {
                         readMoreText.setText("Read More ▼");
                     }
                 });
+
+                card.setVisibility(View.VISIBLE);
             }
         }
     }
+    private void fetchSportsNews() {
+        DatabaseReference sportsRef = FirebaseDatabase.getInstance().getReference("news/sports");
+
+        sportsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<News> sportsNews = new ArrayList<>();
+                Date today = new Date();
+
+                for (DataSnapshot newsSnapshot : snapshot.getChildren()) {
+                    News item = newsSnapshot.getValue(News.class);
+                    if (item != null) {
+                        Date newsDate = parseDate(item.date);
+                        if (newsDate != null && !newsDate.after(today)) {
+                            sportsNews.add(item);
+                        }
+                    }
+                }
+
+                // Sort by date (latest first)
+                Collections.sort(sportsNews, (a, b) -> {
+                    Date dateA = parseDate(a.date);
+                    Date dateB = parseDate(b.date);
+                    if (dateA == null || dateB == null) return 0;
+                    return dateB.compareTo(dateA);
+                });
+
+                populateNewsCards(sportsNews);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FirebaseError", "Error fetching sports news: " + error.getMessage());
+            }
+        });
+    }
+
+    private void fetchAcademicNews() {
+        DatabaseReference academicRef = FirebaseDatabase.getInstance().getReference("news/acedamic");
+
+        academicRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<News> academicNews = new ArrayList<>();
+                Date today = new Date();
+
+                for (DataSnapshot newsSnapshot : snapshot.getChildren()) {
+                    News item = newsSnapshot.getValue(News.class);
+                    if (item != null) {
+                        Date newsDate = parseDate(item.date);
+                        if (newsDate != null && !newsDate.after(today)) {
+                            academicNews.add(item);
+                        }
+                    }
+                }
+
+                Collections.sort(academicNews, (a, b) -> {
+                    Date dateA = parseDate(a.date);
+                    Date dateB = parseDate(b.date);
+                    if (dateA == null || dateB == null) return 0;
+                    return dateB.compareTo(dateA);
+                });
+
+                populateNewsCards(academicNews);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FirebaseError", "Error fetching academic news: " + error.getMessage());
+            }
+        });
+    }
+
+    private void fetchEventsNews() {
+        DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference("news/events");
+
+        eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<News> eventsNews = new ArrayList<>();
+                Date today = new Date();
+
+                for (DataSnapshot newsSnapshot : snapshot.getChildren()) {
+                    News item = newsSnapshot.getValue(News.class);
+                    if (item != null) {
+                        Date newsDate = parseDate(item.date);
+                        if (newsDate != null && !newsDate.after(today)) {
+                            eventsNews.add(item);
+                        }
+                    }
+                }
+
+                Collections.sort(eventsNews, (a, b) -> {
+                    Date dateA = parseDate(a.date);
+                    Date dateB = parseDate(b.date);
+                    if (dateA == null || dateB == null) return 0;
+                    return dateB.compareTo(dateA);
+                });
+
+                populateNewsCards(eventsNews);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("FirebaseError", "Error fetching events news: " + error.getMessage());
+            }
+        });
+    }
+
+
 
 }
