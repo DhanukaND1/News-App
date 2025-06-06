@@ -171,52 +171,40 @@ public class MainActivity extends AppCompatActivity {
 
     // Populate up to 6 news cards dynamically
     private void populateNewsCards(List<News> newsList) {
-        int maxCards = 6;
+        LinearLayout container = findViewById(R.id.newsCardsContainer);
+        container.removeAllViews(); // Clear previous cards
 
-        // Hide all cards
-        for (int i = 1; i <= maxCards; i++) {
-            int cardId = getResources().getIdentifier("newsCard" + i, "id", getPackageName());
-            View card = findViewById(cardId);
-            if (card != null) {
-                card.setVisibility(View.GONE);
-            }
-        }
+        for (News item : newsList) {
+            View card = getLayoutInflater().inflate(R.layout.news_card, container, false);
 
-        // Populate and show available news
-        for (int i = 0; i < Math.min(newsList.size(), maxCards); i++) {
-            int cardId = getResources().getIdentifier("newsCard" + (i + 1), "id", getPackageName());
-            View card = findViewById(cardId);
-            if (card != null) {
-                News item = newsList.get(i);
+            TextView titleText = card.findViewById(R.id.newsTitle);
+            TextView dateText = card.findViewById(R.id.newsDate);
+            ImageView imageView = card.findViewById(R.id.newsImage);
+            TextView descriptionText = card.findViewById(R.id.newsDescription);
+            TextView readMoreText = card.findViewById(R.id.newsReadMore);
 
-                TextView titleText = card.findViewById(R.id.newsTitle);
-                TextView dateText = card.findViewById(R.id.newsDate);
-                ImageView imageView = card.findViewById(R.id.newsImage);
-                TextView descriptionText = card.findViewById(R.id.newsDescription);
-                TextView readMoreText = card.findViewById(R.id.newsReadMore);
+            titleText.setText(item.title);
+            dateText.setText(item.date);
+            descriptionText.setText(item.description);
+            descriptionText.setVisibility(View.GONE);
+            readMoreText.setText("Read More ▼");
 
-                titleText.setText(item.title);
-                dateText.setText(item.date);
-                descriptionText.setText(item.description);
-                descriptionText.setVisibility(View.GONE);
-                readMoreText.setText("Read More ▼");
+            Glide.with(this).load(item.image).into(imageView);
 
-                Glide.with(this).load(item.image).into(imageView);
+            readMoreText.setOnClickListener(v -> {
+                if (descriptionText.getVisibility() == View.GONE) {
+                    descriptionText.setVisibility(View.VISIBLE);
+                    readMoreText.setText("Show Less ▲");
+                } else {
+                    descriptionText.setVisibility(View.GONE);
+                    readMoreText.setText("Read More ▼");
+                }
+            });
 
-                readMoreText.setOnClickListener(v -> {
-                    if (descriptionText.getVisibility() == View.GONE) {
-                        descriptionText.setVisibility(View.VISIBLE);
-                        readMoreText.setText("Show Less ▲");
-                    } else {
-                        descriptionText.setVisibility(View.GONE);
-                        readMoreText.setText("Read More ▼");
-                    }
-                });
-
-                card.setVisibility(View.VISIBLE);
-            }
+            container.addView(card);
         }
     }
+
     private void fetchSportsNews() {
         DatabaseReference sportsRef = FirebaseDatabase.getInstance().getReference("news/sports");
 

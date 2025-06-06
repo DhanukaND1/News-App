@@ -53,7 +53,7 @@
 
             <LinearLayout
                 android:id="@+id/all_news_button"
-                android:layout_width="100dp"
+                android:layout_width="165dp"
                 android:layout_height="40dp"
                 android:layout_below="@id/topNewsTitle"
                 android:layout_marginTop="40dp"
@@ -71,9 +71,9 @@
                 android:visibility="gone" >
 
                 <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="162dp"
                     android:layout_height="30dp"
-                    android:text="All News"
+                    android:text="Show All News"
                     android:textColor="@android:color/white"
                     android:fontFamily="@font/inter_semibold"
                     android:textSize="20sp" />
@@ -83,76 +83,25 @@
         </RelativeLayout>
 
 
-
-
-    <!-- Scrollable Content -->
+        <!-- Scrollable Content -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="98dp"
             android:fillViewport="true">
 
-            <RelativeLayout
+            <!-- News Cards Container -->
+            <LinearLayout
+                android:id="@+id/newsCardsContainer"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="190dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp" />
 
-                <!-- News Cards Container -->
-                <LinearLayout
-                    android:id="@+id/newsCardsContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="190dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp">
-
-                    <!-- Wrap each include in a unique container -->
-                    <LinearLayout
-                        android:id="@+id/newsCard1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <include layout="@layout/news_card" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/newsCard2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <include layout="@layout/news_card" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/newsCard3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <include layout="@layout/news_card" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/newsCard4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <include layout="@layout/news_card" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/newsCard5"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <include layout="@layout/news_card" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/newsCard6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-                        <include layout="@layout/news_card" />
-                    </LinearLayout>
-                </LinearLayout>
-
-
-            </RelativeLayout>
         </ScrollView>
+
 
         <!-- Fixed Bottom Navigation Row -->
         <LinearLayout
