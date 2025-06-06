@@ -98,7 +98,11 @@
                 android:orientation="vertical"
                 android:layout_marginTop="190dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp" />
+                android:layout_marginEnd="20dp"
+                android:paddingBottom="190dp">
+
+            </LinearLayout>
+
 
         </ScrollView>
 
@@ -187,6 +191,17 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <!-- Spinner Overlay -->
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:indeterminate="true"
+            style="?android:attr/progressBarStyleLarge"
+            android:elevation="10dp"/>
 
     </FrameLayout>
 

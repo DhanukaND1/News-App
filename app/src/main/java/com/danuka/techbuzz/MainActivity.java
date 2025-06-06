@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 
 import androidx.annotation.NonNull;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView menuIcon;
     private NavigationView navigationView;
     private boolean isFilteredView = false;
+    private ProgressBar loadingSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout academicButton = findViewById(R.id.academic_button);
         LinearLayout eventsButton = findViewById(R.id.events_button);
         LinearLayout allNewsButton = findViewById(R.id.all_news_button);
+
+        loadingSpinner = findViewById(R.id.loading_spinner);
 
         allNewsButton.setOnClickListener(v -> {
             fetchAndDisplayNews();
@@ -131,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Fetch all news items from Firebase, filter, sort, and populate UI cards
     private void fetchAndDisplayNews() {
+        loadingSpinner.setVisibility(View.VISIBLE);
+
         DatabaseReference newsRef = FirebaseDatabase.getInstance().getReference("news");
 
         newsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -160,11 +166,15 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 populateNewsCards(allNews);
+                loadingSpinner.setVisibility(View.GONE);
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 // Handle Firebase errors here if needed
+                Log.e("FirebaseError", "Failed to fetch news: " + error.getMessage());
+                loadingSpinner.setVisibility(View.GONE);
             }
         });
     }
@@ -206,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void fetchSportsNews() {
+        loadingSpinner.setVisibility(View.VISIBLE);
         DatabaseReference sportsRef = FirebaseDatabase.getInstance().getReference("news/sports");
 
         sportsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -233,16 +244,19 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 populateNewsCards(sportsNews);
+                loadingSpinner.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("FirebaseError", "Error fetching sports news: " + error.getMessage());
+                loadingSpinner.setVisibility(View.GONE);
             }
         });
     }
 
     private void fetchAcademicNews() {
+        loadingSpinner.setVisibility(View.VISIBLE);
         DatabaseReference academicRef = FirebaseDatabase.getInstance().getReference("news/acedamic");
 
         academicRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -269,16 +283,19 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 populateNewsCards(academicNews);
+                loadingSpinner.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("FirebaseError", "Error fetching academic news: " + error.getMessage());
+                loadingSpinner.setVisibility(View.GONE);
             }
         });
     }
 
     private void fetchEventsNews() {
+        loadingSpinner.setVisibility(View.VISIBLE);
         DatabaseReference eventsRef = FirebaseDatabase.getInstance().getReference("news/events");
 
         eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -305,11 +322,13 @@ public class MainActivity extends AppCompatActivity {
                 });
 
                 populateNewsCards(eventsNews);
+                loadingSpinner.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("FirebaseError", "Error fetching events news: " + error.getMessage());
+                loadingSpinner.setVisibility(View.GONE);
             }
         });
     }
