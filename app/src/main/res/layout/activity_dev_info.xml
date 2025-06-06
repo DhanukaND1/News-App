@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background">
+
+    <!-- Developer Info Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/developerCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginEnd="31dp"
+        android:layout_marginTop="120dp"
+        android:background="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/exitButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="515dp"
+            android:orientation="vertical"
+            >
+            <!-- title -->
+
+            <!-- Developer Image -->
+            <TextView
+                android:id="@+id/devTitle"
+                android:layout_width="297dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="34dp"
+                android:layout_marginHorizontal="26dp"
+                android:paddingHorizontal="36dp"
+                android:fontFamily="@font/inter_bold"
+                android:text="Developer Info"
+                android:textColor="#003366"
+                android:textSize="32sp" />
+
+            <ImageView
+                android:id="@+id/devImage"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="44dp"
+                android:padding="2dp"
+                android:background="@drawable/circle_background"
+                android:scaleType="centerCrop"
+                android:src="@drawable/developer_icon" />
+
+            <!-- Name -->
+            <TextView
+                android:id="@+id/devName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="60dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/developer_name"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <!--student no -->
+            <TextView
+                android:id="@+id/devNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="60dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="@string/developer_no"
+                android:textColor="#000000"
+                android:textSize="16sp" />
+
+            <!-- Personal state -->
+            <TextView
+                android:id="@+id/devState"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="60dp"
+                android:text="@string/developer_state"
+                android:textColor="#000000"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="16sp" />
+
+            <!-- Release version -->
+            <TextView
+                android:id="@+id/releaseVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="60dp"
+                android:text="@string/release_version"
+                android:textColor="#000000"
+                android:fontFamily="@font/inter_medium"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Exit Button -->
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#01579B"
+        android:text="Exit"
+        android:fontFamily="@font/inter_medium"
+        android:textSize="24sp"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:layout_marginHorizontal="42dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:cornerRadius="10dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
