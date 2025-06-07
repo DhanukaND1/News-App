@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="Username:"
                     android:fontFamily="@font/inter_bold"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textUsername"
@@ -68,7 +68,7 @@
                     android:text="loading..."
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/inter_medium"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <!-- Email Row -->
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:text="Email:"
                     android:fontFamily="@font/inter_bold"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/textEmail"
@@ -94,7 +94,7 @@
                     android:text="loading..."
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/inter_medium"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
 
 
@@ -132,5 +132,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:cornerRadius="10dp"/>
+
+    <include
+        android:id="@+id/editPopup"
+        layout="@layout/edit_popup"
+        android:visibility="gone"
+        />
+
+    <include
+        android:id="@+id/signoutPopup"
+        layout="@layout/signout_popup"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
