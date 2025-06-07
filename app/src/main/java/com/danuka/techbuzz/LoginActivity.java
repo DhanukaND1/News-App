@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // ===== 1. Style App Name: "TechBuzz" =====
+        // 1. Style App Name: "TechBuzz"
         TextView appName = findViewById(R.id.login_appname);
         String techBuzz = "TechBuzz";
         SpannableString styledTitle = new SpannableString(techBuzz);
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         styledTitle.setSpan(new ForegroundColorSpan(Color.parseColor("#D84315")), 4, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // "Buzz"
         appName.setText(styledTitle);
 
-        // ===== 2. Style "Sign up" Link =====
+        // 2. Style "Sign up" Link
         TextView signUpPrompt = findViewById(R.id.signup_prompt);
         String fullSignUp = "Don’t have an account? Sign up";
         SpannableString styledSignup = new SpannableString(fullSignUp);
@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         signUpPrompt.setText(styledSignup);
         signUpPrompt.setMovementMethod(LinkMovementMethod.getInstance());
 
-        // ===== 3. Style Terms and Privacy =====
+        //  3. Style Terms and Privacy
         TextView termsText = findViewById(R.id.terms_and_policy);
         String fullTerms = "By clicking continue, you agree to our Terms of Service and Privacy Policy";
         SpannableString styledTerms = new SpannableString(fullTerms);
@@ -144,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                     String passwordFromDb = snapshot.child("password").getValue(String.class);
 
                     if (passwordFromDb != null && passwordFromDb.equals(password)) {
+                        saveUsernameToPreferences(username); // Save username
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -162,5 +163,12 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Database error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveUsernameToPreferences(String username) {
+        getSharedPreferences("TechBuzzPrefs", MODE_PRIVATE)
+                .edit()
+                .putString("loggedInUsername", username)
+                .apply();  // or commit() if you want synchronous saving
     }
 }
