@@ -53,7 +53,7 @@ public class SplashActivity extends AppCompatActivity {
 
         // Redirect to MainActivity after delay
         new Handler().postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             finish(); // Finish splash so it's removed from back stack
         }, SPLASH_DISPLAY_LENGTH);

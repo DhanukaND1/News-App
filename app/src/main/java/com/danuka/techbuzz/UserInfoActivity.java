@@ -58,17 +58,12 @@ public class UserInfoActivity extends AppCompatActivity {
             // Clear inputs when popup opens (optional)
             EditText editUser = editPopup.findViewById(R.id.editUsername);
             EditText editEmail = editPopup.findViewById(R.id.editEmail);
-            editUser.setText("");
-            editEmail.setText("");
+            editUser.setText(textUsername.getText().toString());
+            editEmail.setText(textEmail.getText().toString());
         });
 
         Button cancelBtn = editPopup.findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(v -> {
-            // Clear inputs
-            EditText editUsername = editPopup.findViewById(R.id.editUsername);
-            EditText editEmail = editPopup.findViewById(R.id.editEmail);
-            editUsername.setText("");
-            editEmail.setText("");
 
             TextView usernameWarning = editPopup.findViewById(R.id.usernameWarning);
             usernameWarning.setVisibility(View.GONE);
@@ -85,7 +80,7 @@ public class UserInfoActivity extends AppCompatActivity {
         signOutOkay.setOnClickListener(v -> {
             SharedPreferences prefs = getSharedPreferences("TechBuzzPrefs", MODE_PRIVATE);
             prefs.edit().remove("loggedInUsername").apply();
-            Intent intent = new Intent(UserInfoActivity.this, MainActivity.class);
+            Intent intent = new Intent(UserInfoActivity.this, LoginActivity.class);
             startActivity(intent);
             signoutPopup.setVisibility(View.GONE);
         });
@@ -104,7 +99,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
+                if (!s.toString().equals(currentUsername)) {
                     usernameWarning.setVisibility(View.VISIBLE);
                 } else {
                     usernameWarning.setVisibility(View.GONE);

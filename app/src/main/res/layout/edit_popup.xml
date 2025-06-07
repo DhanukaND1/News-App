@@ -56,10 +56,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="This will be your new username to login"
-                android:textColor="@android:color/holo_red_dark"
-                android:layout_marginHorizontal="10dp"
+                android:textColor="#FFA500"
+                android:layout_marginHorizontal="30dp"
                 android:fontFamily="@font/inter_regular"
-                android:textStyle="italic"
+                android:textStyle="italic|bold"
                 android:visibility="gone"
                 android:textSize="13sp"
                 android:paddingTop="2dp"/>

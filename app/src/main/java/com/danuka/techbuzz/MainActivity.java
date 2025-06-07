@@ -1,6 +1,8 @@
 package com.danuka.techbuzz;
 
 import com.danuka.techbuzz.News;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -86,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.nav_user_info) {
-                // startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
+                startActivity(new Intent(MainActivity.this, UserInfoActivity.class));
             } else if (id == R.id.nav_developer_info) {
-                // startActivity(new Intent(MainActivity.this, DeveloperInfoActivity.class));
+                startActivity(new Intent(MainActivity.this, DevInfoActivity.class));
             }
 
             drawerLayout.closeDrawer(GravityCompat.START);
