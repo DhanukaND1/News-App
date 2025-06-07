@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_user_info"
+        android:title="User Info"
+        android:icon="@drawable/person_icon" />
+
+    <item
+        android:id="@+id/nav_developer_info"
+        android:title="Developer Info"
+        android:icon="@drawable/engineering_icon" />
+</menu>
