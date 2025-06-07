@@ -5,6 +5,7 @@ public class HelperClass {
     String username,email,password;
 
     public HelperClass(String username, String email, String password) {
+
         this.username = username;
         this.password = password;
         this.email = email;

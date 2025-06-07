@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_background"
+    tools:context=".SplashActivity">
+
+    <ImageView
+        android:id="@+id/appIcon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/news_app_launcher"
+        android:contentDescription="@string/app_icon"
+        android:layout_marginTop="275dp"
+        android:layout_marginStart="131dp"
+        android:layout_marginEnd="131dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/splashTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="129dp"
+        android:layout_marginEnd="129dp"
+        android:layout_marginTop="34dp"
+        android:fontFamily="@font/inter_bold"
+        android:text="TechBuzz"
+        android:textSize="32sp"
+        app:layout_constraintTop_toBottomOf="@id/appIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
