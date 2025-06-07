@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TechBuzz</string>
+    <string name="app_icon">News App Logo</string>
 </resources>
