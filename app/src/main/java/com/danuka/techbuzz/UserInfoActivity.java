@@ -152,7 +152,7 @@ public class UserInfoActivity extends AppCompatActivity {
                                 textEmail.setText(newEmail);
                                 currentUsername = newUsername;
 
-                                Snackbar.make(findViewById(android.R.id.content), "User updated successfully", Snackbar.LENGTH_LONG).show();
+                                Toast.makeText(UserInfoActivity.this, "User updated successfully", Toast.LENGTH_LONG).show();
                                 editPopup.setVisibility(View.GONE);
                             } else {
                                 Snackbar.make(findViewById(android.R.id.content), "Failed to update", Snackbar.LENGTH_LONG).show();

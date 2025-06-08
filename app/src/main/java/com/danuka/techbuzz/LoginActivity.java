@@ -145,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (passwordFromDb != null && passwordFromDb.equals(password)) {
                         saveUsernameToPreferences(username); // Save username
+                        Toast.makeText(LoginActivity.this, "Login successfully!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
