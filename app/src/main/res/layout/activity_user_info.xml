@@ -34,16 +34,16 @@
                 android:textSize="24sp"
                 android:textColor="#003366"/>
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/userImage"
-                android:layout_width="102dp"
-                android:layout_height="102dp"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/circle_background"
                 android:src="@drawable/person_circle"
                 android:scaleType="centerCrop"
-                android:adjustViewBounds="true"/>
+                android:padding="3dp"/>
 
             <!-- Username Row -->
             <LinearLayout

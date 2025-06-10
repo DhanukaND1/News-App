@@ -1,36 +1,44 @@
 package com.danuka.techbuzz;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.content.SharedPreferences;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.material.snackbar.Snackbar;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class UserInfoActivity extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 100;
+
     Button signOutBtn, editBtn;
     TextView textUsername, textEmail;
     View editPopup, signoutPopup;
-
-    String currentUsername; // track the currently logged-in user
+    ImageView profileIcon;
+    String currentUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +47,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
         textUsername = findViewById(R.id.textUsername);
         textEmail = findViewById(R.id.textEmail);
+        profileIcon = findViewById(R.id.userImage);
         signOutBtn = findViewById(R.id.signoutBtn);
         editBtn = findViewById(R.id.editBtn);
         editPopup = findViewById(R.id.editPopup);
@@ -46,29 +55,27 @@ public class UserInfoActivity extends AppCompatActivity {
 
         fetchAndDisplayUserInfo();
 
+        profileIcon.setOnClickListener(v -> checkPermissionAndOpenImageChooser());
+
         signOutBtn.setOnClickListener(view -> signoutPopup.setVisibility(View.VISIBLE));
 
         editBtn.setOnClickListener(view -> {
             editPopup.setVisibility(View.VISIBLE);
 
-            // Hide warning when popup opens
             TextView usernameWarning = editPopup.findViewById(R.id.usernameWarning);
             usernameWarning.setVisibility(View.GONE);
 
-            // Clear inputs when popup opens (optional)
             EditText editUser = editPopup.findViewById(R.id.editUsername);
             EditText editEmail = editPopup.findViewById(R.id.editEmail);
+
             editUser.setText(textUsername.getText().toString());
             editEmail.setText(textEmail.getText().toString());
         });
 
         Button cancelBtn = editPopup.findViewById(R.id.cancelBtn);
         cancelBtn.setOnClickListener(v -> {
-
             TextView usernameWarning = editPopup.findViewById(R.id.usernameWarning);
             usernameWarning.setVisibility(View.GONE);
-
-            // Hide popup
             editPopup.setVisibility(View.GONE);
         });
 
@@ -76,27 +83,21 @@ public class UserInfoActivity extends AppCompatActivity {
         signOutCancel.setOnClickListener(v -> signoutPopup.setVisibility(View.GONE));
 
         Button signOutOkay = signoutPopup.findViewById(R.id.okayBtn);
-
         signOutOkay.setOnClickListener(v -> {
-            SharedPreferences prefs = getSharedPreferences("TechBuzzPrefs", MODE_PRIVATE);
-            prefs.edit().remove("loggedInUsername").apply();
+            SharedPreferences pref = getSharedPreferences("TechBuzzPrefs", MODE_PRIVATE);
+            pref.edit().remove("loggedInUsername").apply();
             Intent intent = new Intent(UserInfoActivity.this, LoginActivity.class);
             startActivity(intent);
             signoutPopup.setVisibility(View.GONE);
+            finish(); // close this activity after logout
         });
 
-        // Handle edit + save
-        Button okayBtn = editPopup.findViewById(R.id.okayBtn);
-
-        // warning visibility on typing
+        // Username warning on typing
         TextView usernameWarning = editPopup.findViewById(R.id.usernameWarning);
         EditText editUser = editPopup.findViewById(R.id.editUsername);
         editUser.addTextChangedListener(new android.text.TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // no action
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.toString().equals(currentUsername)) {
@@ -105,13 +106,11 @@ public class UserInfoActivity extends AppCompatActivity {
                     usernameWarning.setVisibility(View.GONE);
                 }
             }
-
             @Override
-            public void afterTextChanged(android.text.Editable s) {
-                // no action
-            }
+            public void afterTextChanged(android.text.Editable s) { }
         });
 
+        Button okayBtn = editPopup.findViewById(R.id.okayBtn);
         okayBtn.setOnClickListener(v -> {
             EditText editUsername = editPopup.findViewById(R.id.editUsername);
             EditText editEmail = editPopup.findViewById(R.id.editEmail);
@@ -130,12 +129,12 @@ public class UserInfoActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        String currentPassword = snapshot.child("password").getValue(String.class); // preserve password
+                        String currentPassword = snapshot.child("password").getValue(String.class);
 
                         Map<String, Object> updatedUser = new HashMap<>();
                         updatedUser.put("username", newUsername);
                         updatedUser.put("email", newEmail);
-                        updatedUser.put("password", currentPassword); // keep original password
+                        updatedUser.put("password", currentPassword);
 
                         // If username changed, remove old node
                         if (!newUsername.equals(currentUsername)) {
@@ -144,9 +143,9 @@ public class UserInfoActivity extends AppCompatActivity {
 
                         usersRef.child(newUsername).setValue(updatedUser).addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                // Update SharedPreferences
-                                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(UserInfoActivity.this);
-                                prefs.edit().putString("username", newUsername).apply();
+                                // Update SharedPreferences with consistent key
+                                SharedPreferences prefs = getSharedPreferences("TechBuzzPrefs", MODE_PRIVATE);
+                                prefs.edit().putString("loggedInUsername", newUsername).apply();
 
                                 textUsername.setText(newUsername);
                                 textEmail.setText(newEmail);
@@ -167,6 +166,46 @@ public class UserInfoActivity extends AppCompatActivity {
                 }
             });
         });
+    }
+
+    private void checkPermissionAndOpenImageChooser() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
+        } else {
+            openImageChooser();
+        }
+    }
+
+    private void openImageChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_READ_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openImageChooser();
+            } else {
+                Toast.makeText(this, "Permission denied to read external storage", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+
+            profileIcon.setImageURI(imageUri);
+        }
     }
 
     private void fetchAndDisplayUserInfo() {
