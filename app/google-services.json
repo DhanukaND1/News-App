@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "700115715935",
+    "firebase_url": "https://fir-newsapp-40861-default-rtdb.firebaseio.com",
+    "project_id": "fir-newsapp-40861",
+    "storage_bucket": "fir-newsapp-40861.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:700115715935:android:9005db7ca2007f729918ea",
+        "android_client_info": {
+          "package_name": "com.danuka.techbuzz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKqX8mHq5CdI4CimQrUO_adDM0WKYSFGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
