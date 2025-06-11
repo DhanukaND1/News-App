@@ -104,7 +104,7 @@ public class SignupActivity extends AppCompatActivity {
                             reference.child(username).setValue(helperClass);
 
                             Toast.makeText(SignupActivity.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                         }
                     } else {
                         Toast.makeText(SignupActivity.this, "Error checking username", Toast.LENGTH_SHORT).show();
